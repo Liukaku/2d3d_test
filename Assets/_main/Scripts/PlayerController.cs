@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEditor.ShaderGraph.Internal;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -13,6 +14,7 @@ namespace SpriteGame
         public float speedModifier = 2;
         public float gravity = 9.8f;
         public bool canMove = true;
+        public GameObject TargetIndicator;
 
         private float sprintSpeed = 4.0f;
         private float defaultSpeed;
@@ -21,6 +23,7 @@ namespace SpriteGame
         private Camera followCamera;
         private CharacterController m_ChController;
         private ThrowAttack m_ThrowAttack;
+        private AreaAttack m_SpikeAttack;
         private readonly int m_hashWalking = Animator.StringToHash("Walking");
         private readonly int m_hashAttack = Animator.StringToHash("AttackOne");
         private Animator m_Animator;
@@ -28,6 +31,8 @@ namespace SpriteGame
         private float verticalSpeed;
         private bool input_q;
         private bool input_e;
+        private bool input_click;
+        private bool input_one;
         private bool cameraRotating = false;
 
         void Awake()
@@ -37,6 +42,7 @@ namespace SpriteGame
             m_Animator = GetComponent<Animator>();
             m_SpriteRenderer = GetComponent<SpriteRenderer>();
             m_ThrowAttack = GetComponent<ThrowAttack>();
+            m_SpikeAttack = GetComponent<AreaAttack>();
             defaultSpeed = speed;
         }
 
@@ -60,8 +66,18 @@ namespace SpriteGame
 
             if (Input.GetMouseButtonDown(0))
             {
-                StartCoroutine(TriggerAttackTimer());
-                StartCoroutine(m_ThrowAttack.Attack(transform.position));
+                //StartCoroutine(TriggerAttackTimer());
+                input_click = true;
+            }
+
+            if (Input.GetKeyDown(KeyCode.Alpha1))
+            {
+                input_one = true;
+            }
+
+            if (Input.GetKeyDown(KeyCode.Tab))
+            {
+                ChangeTarget();
             }
         }
 
@@ -73,6 +89,18 @@ namespace SpriteGame
             //Debug.Log(Input.GetAxis("Horizontal"));
             HandleVerticalMovement();
             HandleSpriteRotation();
+
+            if (input_click && !cameraRotating)
+            {
+                StartCoroutine(m_ThrowAttack.Attack(transform.position));
+                input_click = false;
+            }
+
+            if (input_one && !cameraRotating)
+            {
+                StartCoroutine(m_SpikeAttack.Attack(transform.position));
+                input_one = false;
+            }
 
             if (input_e && !cameraRotating)
             {
@@ -102,7 +130,7 @@ namespace SpriteGame
 
             if (Input.GetAxis("Horizontal") != 0 && Input.GetAxis("Vertical") != 0)
             {
-                desiredSpeed = desiredSpeed * 0.5f;
+                desiredSpeed = desiredSpeed * 0.7f;
             }
 
             if (Input.GetKey(KeyCode.LeftShift))
@@ -177,6 +205,36 @@ namespace SpriteGame
             {
                 input_q = false;
             }
+        }
+
+        public Collider[] targets;
+        private int targetIndex = 0;
+        private void ChangeTarget()
+        {
+            Collider[] colliderArray = Physics.OverlapSphere(transform.position, 10f);
+            Collider[] filteredColliders = colliderArray.Where(c => c.CompareTag("Enemy")).ToArray();
+
+
+            // if this is the first time we are setting the target, set it to the first enemy OR if if we need to reset the target
+            if (targets.Length == 0 || targets[targetIndex] == null)
+            {
+                targetIndex = 0;
+            } else
+            {
+                targetIndex++;
+                if (targetIndex >= filteredColliders.Length)
+                {
+                    targetIndex = 0;
+                }
+            }
+            
+
+            targets = filteredColliders;
+            Debug.Log(filteredColliders[targetIndex].gameObject.name);
+            Debug.Log(filteredColliders[targetIndex].gameObject.tag);
+            TargetIndicator.transform.SetParent(filteredColliders[targetIndex].transform, false);
+            m_ThrowAttack.SetTarget(filteredColliders[targetIndex].transform);
+
         }
     }
 

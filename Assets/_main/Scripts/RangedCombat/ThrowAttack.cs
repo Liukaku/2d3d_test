@@ -7,6 +7,7 @@ namespace SpriteGame
 {
     public class ThrowAttack : MonoBehaviour
     {
+        public Vector3 targetVelocity = new Vector3(-1.99f, 3.64f, 3.38f);
         [SerializeField]
         private Transform Target;
 
@@ -23,6 +24,7 @@ namespace SpriteGame
 
         [SerializeField]
         private LayerMask SightLayers;
+        [SerializeField]
         private float AttackDelay = 5f;
 
         [Range(0.01f, 5f)]
@@ -42,8 +44,10 @@ namespace SpriteGame
         {
             AttackProjectile.useGravity = false;
             AttackProjectile.isKinematic = true;
-            SpherecastRadius = AttackProjectile.GetComponent<SphereCollider>().radius;
-            LastAttackTime = Random.Range(0, 5);
+
+            GetNearestEnemy(new Vector3(0,0,0));
+            //SpherecastRadius = AttackProjectile.GetComponent<SphereCollider>().radius;
+            //LastAttackTime = Random.Range(0, 5);
 
             //int capacity = Mathf.CeilToInt(HistoricalResolution * HistoricalTime);
             //HistoricalPositions = new Queue<Vector3>(capacity);
@@ -52,6 +56,11 @@ namespace SpriteGame
             //    HistoricalPositions.Enqueue(Target.position);
             //}
             //HistoricalPositionInterval = HistoricalTime / HistoricalResolution;
+        }
+
+        private void FixedUpdate()
+        {
+
         }
 
 
@@ -85,35 +94,66 @@ namespace SpriteGame
 
         public IEnumerator Attack(Vector3 originPosition)
         {
+            originPosition.y += 0.2f;
+            originPosition.x += Random.Range(0.2f, 0.5f);
             AttackProjectile.gameObject.SetActive(true);
-            AttackProjectile.transform.SetParent(null, true);
-            
-            GetNearestEnemy(originPosition);
+            //AttackProjectile.transform.SetParent(null, true);
+
+            if(Target == null)
+            {
+                GetNearestEnemy(originPosition);
+            }
 
             ThrowData throwData = CalculateThrowData(
                 Target.position,
                 originPosition
                 );
+            targetVelocity = throwData.ThrowVelocity;
+
+            AttackProjectile.transform.position = originPosition;
             DoThrow(throwData, originPosition);
+            AttackProjectile.excludeLayers = SightLayers;
+            yield return new WaitForSeconds(0.1f);
+            AttackProjectile.excludeLayers = 0;
             yield return null;
         }
 
         private void DoThrow(ThrowData ThrowData, Vector3 originPosition)
         {
-            AttackProjectile.transform.position = originPosition;
             AttackProjectile.useGravity = true;
             AttackProjectile.isKinematic = false;
-            AttackProjectile.velocity = ThrowData.ThrowVelocity;
+            AttackProjectile.AddForce(ThrowData.ThrowVelocity, ForceMode.VelocityChange);
+            DisableAfterTimer(AttackDelay);
+
         }
 
-        private void GetNearestEnemy(Vector3 originPosition)
+        private void DisableAfterTimer(float timer)
+        {
+            StartCoroutine(DisableAfterTimerCoroutine(timer));
+        }
+
+        private IEnumerator DisableAfterTimerCoroutine(float timer)
+        {
+            yield return new WaitForSeconds(timer);
+            AttackProjectile.gameObject.SetActive(false);
+            //AttackProjectile.velocity = Vector3.zero;
+            AttackProjectile.isKinematic = true;
+            AttackProjectile.useGravity = false;
+        }
+
+        public void SetTarget(Transform target)
+        {
+            Target = target;
+        }
+
+        public void GetNearestEnemy(Vector3 originPosition)
         {
             Collider[] colliderArray = Physics.OverlapSphere(originPosition, CastRadius);
             foreach (Collider collider in colliderArray) {
                 if (collider.CompareTag("Enemy"))
                 {
                     Target = collider.transform;
-                    break;
+                    return;
                 }
             }
         }
@@ -143,7 +183,7 @@ namespace SpriteGame
             float angle;
             if (ForceRatio == 0)
             {
-                angle = Mathf.PI / 2 - (0.5f * (Mathf.PI / 2 - (deltaY / deltaXZ)));
+                angle = Mathf.PI / 2f - (0.5f * (Mathf.PI / 2 - (deltaY / deltaXZ)));
             }
             else
             {

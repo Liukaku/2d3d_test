@@ -63,30 +63,33 @@
     <Compile Include="Assets\RunemarkStudio\DarkFantasyKit\Scripts\Transformers\RMRendererToggle.cs" />
     <Compile Include="Assets\RunemarkStudio\DarkFantasyKit\Scripts\Triggers\RMTrigger.cs" />
     <Compile Include="Assets\_main\Scripts\Damageable.cs" />
-    <Compile Include="Assets\_main\Scripts\AnimationScripts\PlayerAttackScript.cs" />
     <Compile Include="Assets\RunemarkStudio\DarkFantasyKit\Scripts\Transformers\RMTransformerSync.cs" />
     <Compile Include="Assets\RunemarkStudio\DarkFantasyKit\Scripts\ChainLinkParenter.cs" />
-    <Compile Include="Assets\RunemarkStudio\DarkFantasyKit\Scripts\Transformers\RMColliderToggle.cs" />
     <Compile Include="Assets\RunemarkStudio\DarkFantasyKit\Scripts\Common\Controllers\RMTopDownCamera.cs" />
-    <Compile Include="Assets\RunemarkStudio\DarkFantasyKit\Scripts\Common\Controllers\RMTopDownController.cs" />
-    <Compile Include="Assets\RunemarkStudio\DarkFantasyKit\Scripts\Common\PropertyDrawers\TagfieldPropertyDrawer.cs" />
     <Compile Include="Assets\_main\Scripts\CameraFollow.cs" />
-    <Compile Include="Assets\_main\Scripts\WeaponStats.cs" />
-    <Compile Include="Assets\RunemarkStudio\DarkFantasyKit\Scripts\Common\Controllers\CameraController.cs" />
     <Compile Include="Assets\RunemarkStudio\DarkFantasyKit\Scripts\Common\InspectorHeader.cs" />
-    <Compile Include="Assets\RunemarkStudio\DarkFantasyKit\Scripts\Common\CustomInspectorBase.cs" />
     <Compile Include="Assets\_main\Scripts\PlayerController.cs" />
     <Compile Include="Assets\RunemarkStudio\DarkFantasyKit\Scripts\Transformers\RMRotator.cs" />
     <Compile Include="Assets\RunemarkStudio\DarkFantasyKit\Scripts\Transformers\RMFunction.cs" />
     <Compile Include="Assets\RunemarkStudio\DarkFantasyKit\Scripts\Triggers\RMTriggerKey.cs" />
-    <Compile Include="Assets\RunemarkStudio\DarkFantasyKit\Scripts\Common\PropertyDrawers\MinValuePropertyDrawer.cs" />
-    <Compile Include="Assets\RunemarkStudio\DarkFantasyKit\Scripts\BookClusterGenerator.cs" />
     <Compile Include="Assets\RunemarkStudio\DarkFantasyKit\Scripts\Transformers\RMTranslator.cs" />
+    <Compile Include="Assets\RunemarkStudio\DarkFantasyKit\Scripts\Transformers\RMTransformerSequencer.cs" />
+    <Compile Include="Assets\_main\Scripts\AnimationScripts\PlayerAttackScript.cs" />
+    <Compile Include="Assets\_main\Scripts\RangedCombat\SpellOnHit.cs" />
+    <Compile Include="Assets\RunemarkStudio\DarkFantasyKit\Scripts\Transformers\RMColliderToggle.cs" />
+    <Compile Include="Assets\RunemarkStudio\DarkFantasyKit\Scripts\Common\Controllers\RMTopDownController.cs" />
+    <Compile Include="Assets\RunemarkStudio\DarkFantasyKit\Scripts\Common\PropertyDrawers\TagfieldPropertyDrawer.cs" />
+    <Compile Include="Assets\_main\Scripts\WeaponStats.cs" />
+    <Compile Include="Assets\RunemarkStudio\DarkFantasyKit\Scripts\Common\Controllers\CameraController.cs" />
+    <Compile Include="Assets\RunemarkStudio\DarkFantasyKit\Scripts\Common\CustomInspectorBase.cs" />
+    <Compile Include="Assets\RunemarkStudio\DarkFantasyKit\Scripts\Common\PropertyDrawers\MinValuePropertyDrawer.cs" />
+    <Compile Include="Assets\_main\Scripts\RangedCombat\SpikeAttack.cs" />
+    <Compile Include="Assets\RunemarkStudio\DarkFantasyKit\Scripts\BookClusterGenerator.cs" />
     <Compile Include="Assets\RunemarkStudio\DarkFantasyKit\Scripts\Common\Controllers\RMFPSController.cs" />
     <Compile Include="Assets\_main\Scripts\RangedCombat\ThrowAttack.cs" />
     <Compile Include="Assets\RunemarkStudio\DarkFantasyKit\Scripts\Transformers\RMTransformer.cs" />
     <Compile Include="Assets\RunemarkStudio\DarkFantasyKit\Scripts\Common\EditorGUILayoutExtension.cs" />
-    <Compile Include="Assets\RunemarkStudio\DarkFantasyKit\Scripts\Transformers\RMTransformerSequencer.cs" />
+    <Compile Include="Assets\_main\Scripts\AnimationScripts\TargetIndicator.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\RunemarkStudio\DarkFantasyKit\Shaders\StainedGlassWindow.shader" />
@@ -952,6 +955,10 @@
       <HintPath>Library\ScriptAssemblies\Unity.PlasticSCM.Editor.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="Unity.ProBuilder">
+      <HintPath>Library\ScriptAssemblies\Unity.ProBuilder.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="Unity.Timeline.Editor">
       <HintPath>Library\ScriptAssemblies\Unity.Timeline.Editor.dll</HintPath>
       <Private>False</Private>
@@ -978,6 +985,10 @@
     </Reference>
     <Reference Include="Unity.VisualScripting.Core.Editor">
       <HintPath>Library\ScriptAssemblies\Unity.VisualScripting.Core.Editor.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Unity.ProBuilder.AddOns.Editor">
+      <HintPath>Library\ScriptAssemblies\Unity.ProBuilder.AddOns.Editor.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Unity.Rider.Editor">
@@ -1022,6 +1033,10 @@
     </Reference>
     <Reference Include="Unity.TestTools.CodeCoverage.Editor.OpenCover.Mono.Reflection">
       <HintPath>Library\ScriptAssemblies\Unity.TestTools.CodeCoverage.Editor.OpenCover.Mono.Reflection.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Unity.ProBuilder.Editor">
+      <HintPath>Library\ScriptAssemblies\Unity.ProBuilder.Editor.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Unity.VisualScripting.SettingsProvider.Editor">
@@ -1070,6 +1085,10 @@
     </Reference>
     <Reference Include="Unity.RenderPipelines.Universal.Shaders">
       <HintPath>Library\ScriptAssemblies\Unity.RenderPipelines.Universal.Shaders.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Unity.ProBuilder.AssetIdRemapUtility">
+      <HintPath>Library\ScriptAssemblies\Unity.ProBuilder.AssetIdRemapUtility.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Unity.VisualScripting.State">
