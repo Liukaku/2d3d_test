@@ -235,6 +235,7 @@ namespace SpriteGame
             Debug.Log(filteredColliders[targetIndex].gameObject.tag);
             TargetIndicator.transform.SetParent(filteredColliders[targetIndex].transform, false);
             m_ThrowAttack.SetTarget(filteredColliders[targetIndex].transform);
+            m_SpikeAttack.SetTarget(filteredColliders[targetIndex].transform);
 
         }
     }
