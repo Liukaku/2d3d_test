@@ -12,13 +12,14 @@ GameObject:
   - component: {fileID: 841760201513571639}
   - component: {fileID: 3786539617501861530}
   - component: {fileID: 2501380499082442627}
+  - component: {fileID: 5941135482232507854}
   - component: {fileID: 5247600090528102268}
   - component: {fileID: 2350840645263191907}
   - component: {fileID: 4699372068996042098}
   - component: {fileID: 5282605468565497490}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -47,8 +48,8 @@ SpriteRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 747066642667256776}
   m_Enabled: 1
-  m_CastShadows: 0
-  m_ReceiveShadows: 0
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
   m_DynamicOccludee: 1
   m_StaticShadowCaster: 0
   m_MotionVectors: 1
@@ -59,7 +60,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 0972046921b496748ad371381a52f9bd, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -108,7 +109,10 @@ MonoBehaviour:
   speedModifier: 1
   gravity: 4.5
   canMove: 1
+  TargetIndicator: {fileID: 0}
+  canRotateCamera: 0
   forwardSpeed: 0
+  targets: []
 --- !u!114 &2501380499082442627
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -121,6 +125,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4790dcfa4d3818347adce4c4d138bebd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  targetVelocity: {x: -1.99, y: 3.64, z: 3.38}
   Target: {fileID: 0}
   MaxThrowForce: 25
   ForceRatio: 0
@@ -128,9 +133,31 @@ MonoBehaviour:
   CastRadius: 10
   SightLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 64
+  AttackDelay: 1
   HistoricalTime: 1
   HistoricalResolution: 10
+--- !u!114 &5941135482232507854
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 747066642667256776}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b57fec3210c04141b39b966db0ae8d8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Target: {fileID: 0}
+  AttackObject: {fileID: 0}
+  CastRadius: 10
+  SightLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  AttackDelay: 1
+  AttackSpeed: 0.3
+  MovesToTarget: 1
 --- !u!143 &5247600090528102268
 CharacterController:
   m_ObjectHideFlags: 0
@@ -239,7 +266,7 @@ GameObject:
   - component: {fileID: 288024857249019535}
   - component: {fileID: 6163864814397579394}
   - component: {fileID: 6349044432359794887}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: HitBox
   m_TagString: Untagged
   m_Icon: {fileID: 0}

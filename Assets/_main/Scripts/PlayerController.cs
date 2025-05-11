@@ -15,6 +15,7 @@ namespace SpriteGame
         public float gravity = 9.8f;
         public bool canMove = true;
         public GameObject TargetIndicator;
+        public bool canRotateCamera = true;
 
         private float sprintSpeed = 4.0f;
         private float defaultSpeed;
@@ -54,12 +55,12 @@ namespace SpriteGame
             HandleVerticalMovement();
             HandleSpriteRotation();
 
-            if (Input.GetKeyDown(KeyCode.E))
+            if (Input.GetKeyDown(KeyCode.E) && canRotateCamera)
             {
                 input_e = true;
             }
 
-            if (Input.GetKeyDown(KeyCode.Q))
+            if (Input.GetKeyDown(KeyCode.Q) && canRotateCamera)
             {
                 input_q = true;
             }

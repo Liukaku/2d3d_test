@@ -11,6 +11,13 @@ namespace SpriteGame
         [SerializeField]
         private Transform target;
 
+        [SerializeField]
+        private float minCameraYposition;
+
+        public float currentRotationAngle;
+        public float wantedRotationAngle;
+        public float magicNumber = 10.0f;
+
         private void LateUpdate()
         {
             if (!target)
@@ -18,8 +25,8 @@ namespace SpriteGame
                 return;
             }
 
-            float currentRotationAngle = transform.eulerAngles.y;
-            float wantedRotationAngle = target.eulerAngles.y;
+            currentRotationAngle = transform.eulerAngles.y;
+            wantedRotationAngle = target.eulerAngles.y;
 
             currentRotationAngle = Mathf.LerpAngle(
                 currentRotationAngle,
@@ -27,7 +34,7 @@ namespace SpriteGame
                 0.5f);
 
             //float minCameraYposition = target.position.y < 5.0f ? 5.0f : target.position.y;
-            float minCameraYposition = 5.0f + target.position.y;
+            minCameraYposition = 5.0f + target.position.y;
 
             minCameraYposition += (target.position.y / 4);
 
@@ -42,7 +49,7 @@ namespace SpriteGame
             // rotate vector forward currentRotationAngle angle degrees around Y axis
             Vector3 rotatedPosition = currentRotation * Vector3.forward;
 
-            transform.position -= rotatedPosition * 10;
+            transform.position -= rotatedPosition * magicNumber;
 
             transform.LookAt(target);
         }
