@@ -35,6 +35,7 @@ namespace SpriteGame
         private bool input_click;
         private bool input_one;
         private bool cameraRotating = false;
+        private DialogManager chattingWith = null;
 
         void Awake()
         {
@@ -79,6 +80,16 @@ namespace SpriteGame
             if (Input.GetKeyDown(KeyCode.Tab))
             {
                 ChangeTarget();
+            }
+
+            if (Input.GetKeyDown(KeyCode.F))
+            {
+                StartInteract();
+            }
+
+            if (Input.GetKeyDown(KeyCode.Escape))
+            {
+                CloseAllInterfaces();
             }
         }
 
@@ -208,12 +219,46 @@ namespace SpriteGame
             }
         }
 
+        private void CloseAllInterfaces()
+        {
+            if(chattingWith != null)
+            {
+                chattingWith.CloseDialog();
+                chattingWith = null;
+            }
+        }
+
+        private void StartInteract()
+        {
+            Collider[] chatters = GetCollidersByTag(2f, "Enemy");
+            Collider chat = chatters[0];
+            Debug.Log("Chatting with: " + chat.gameObject.name);
+            chattingWith = chat.GetComponent<DialogManager>();
+            if (chattingWith != null)
+            {
+
+                chattingWith.StartDialog(2.0f);
+            }
+            else
+            {
+                Debug.Log("No one to chat with");
+            }
+        }
+
+
+        private Collider[] GetCollidersByTag(float distance, string tag)
+        {
+            Collider[] colliderArray = Physics.OverlapSphere(transform.position, distance);
+            return colliderArray.Where(c => c.CompareTag(tag)).ToArray();
+        }
+
         public Collider[] targets;
         private int targetIndex = 0;
         private void ChangeTarget()
         {
-            Collider[] colliderArray = Physics.OverlapSphere(transform.position, 10f);
-            Collider[] filteredColliders = colliderArray.Where(c => c.CompareTag("Enemy")).ToArray();
+            //Collider[] colliderArray = Physics.OverlapSphere(transform.position, 10f);
+            //Collider[] filteredColliders = colliderArray.Where(c => c.CompareTag("Enemy")).ToArray();
+            Collider[] filteredColliders = GetCollidersByTag(10f, "Enemy");
 
 
             // if this is the first time we are setting the target, set it to the first enemy OR if if we need to reset the target

@@ -85,6 +85,7 @@
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\Benchmark02.cs" />
     <Compile Include="Assets\_main\Scripts\PlayerController.cs" />
     <Compile Include="Assets\RunemarkStudio\DarkFantasyKit\Scripts\Transformers\RMRotator.cs" />
+    <Compile Include="Assets\_main\Scripts\Dialog\ButtonManager.cs" />
     <Compile Include="Assets\RunemarkStudio\DarkFantasyKit\Scripts\Transformers\RMFunction.cs" />
     <Compile Include="Assets\RunemarkStudio\DarkFantasyKit\Scripts\Triggers\RMTriggerKey.cs" />
     <Compile Include="Assets\RunemarkStudio\DarkFantasyKit\Scripts\Transformers\RMTranslator.cs" />
@@ -122,6 +123,7 @@
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TextMeshProFloatingText.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\ShaderPropAnimator.cs" />
     <Compile Include="Assets\RunemarkStudio\DarkFantasyKit\Scripts\BookClusterGenerator.cs" />
+    <Compile Include="Assets\_main\Scripts\Dialog\ButtonInfo.cs" />
     <Compile Include="Assets\RunemarkStudio\DarkFantasyKit\Scripts\Common\Controllers\RMFPSController.cs" />
     <Compile Include="Assets\_main\Scripts\RangedCombat\ThrowAttack.cs" />
     <Compile Include="Assets\RunemarkStudio\DarkFantasyKit\Scripts\Transformers\RMTransformer.cs" />

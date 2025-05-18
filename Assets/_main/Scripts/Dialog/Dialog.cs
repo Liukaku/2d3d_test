@@ -14,18 +14,27 @@ namespace SpriteGame
     [System.Serializable]
     public class General
     {
-        public OptionsByTier optionsByTier;
+        public List<OptionsByTier> optionsByTier;
     }
 
     [System.Serializable]
     public class OptionsByTier
     {
-        public string tier;
+        public int tier;
         public List<DialogOption> options;
     }
 
     [System.Serializable]
     public class DialogOption
+    {
+        public string key;
+        public string image;
+        public string body;
+        public List<DialogPage> pages;
+        public List<DialogResponse> responses;
+    }
+
+    public class DialogPage
     {
         public string key;
         public string image;
