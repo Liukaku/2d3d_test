@@ -7,4 +7,6 @@ TODO:
 - figure out what i'm actually doing with this, a story or what?
 - update the dialog loader to filter out the greeting objects. Nexted lists didn't agree with unity's jsonutility, this will mean we can filter out the greetings into an array and pick one from random. Jsonutility also doesn't like dictionarys
 - break out the player controller script into separate files because holy hell is it getting big
-- finish the dialog tree handling multiple pages of conversation for one dialog option
+- Dialog is generally in place now
+	- handle quests?
+	- track player vibe

@@ -8,24 +8,6 @@
                         "key": "greeting",
                         "image": "NPC_A.png",
                         "body": "Hello, how can I help you today?",
-                        "pages": [
-                            {
-                                "key": "greeting",
-                                "body": "Why do you keep staring at me?",
-                                "responses": [
-                                    {
-                                        "body": "I need some information.",
-                                        "next": "info",
-                                        "vibe": 0
-                                    },
-                                    {
-                                        "body": "Just passing by.",
-                                        "next": "bye",
-                                        "vibe": 1
-                                    }
-                                ]
-                            }
-                        ],
                         "responses": [
                             {
                                 "body": "I need some information.",
@@ -54,6 +36,10 @@
                                 "vibe": 1
                             }
                         ]
+                    },
+                    {
+                        "key": "town_info",
+                        "body": "A bingus, me pringus, a bing bong"
                     },
                     {
                         "key": "bye",

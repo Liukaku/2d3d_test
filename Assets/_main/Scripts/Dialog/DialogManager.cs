@@ -14,6 +14,7 @@ namespace SpriteGame
         public string CharacterDialogFilename;
         public string BaseImage;
         public DialogObject dialogObject;
+        public bool inConversation = false;
 
         [SerializeField]
         private GameObject DialogCanvas;
@@ -23,6 +24,7 @@ namespace SpriteGame
         private ButtonManager ButtonManager;
         [SerializeField]
         private List<DialogOption> currentDialogOptions = new();
+        [SerializeField]
         private DialogOption currentDialogOption = new();
         private int currentDialogPage = 0;
 
@@ -83,18 +85,27 @@ namespace SpriteGame
         {
             PauseGameForDialog(false);
             DialogCanvas.SetActive(false);
+            inConversation = false;
+        }
+
+        public void ClearDialogBody()
+        {
+            DialogBody.text = "";
         }
 
         public void StartDialog(float vibe)
         {
+            inConversation = true;
             List<OptionsByTier> tiers = dialogObject.general.optionsByTier.FindAll((n) =>  n.tier <= vibe);
             tiers.Sort((a, b) => a.tier.CompareTo(b.tier));
             Debug.Log(tiers[0].tier);
             currentDialogOptions = tiers[0].options;
             currentDialogOption = currentDialogOptions.Find((n) => n.key == "greeting");
+            Debug.Log(currentDialogOption.pages.Count);
             DialogCanvas.SetActive(true);
             PauseGameForDialog(true);
             UpdateDialogText(currentDialogOption.body);
+            ButtonManager.SetDialogManager(this);
         }
 
         public void UpdateDialogText(string bodyText)
@@ -102,21 +113,41 @@ namespace SpriteGame
             DialogBody.text = bodyText;
         }
 
+        private void HandleDisplayingResponses(List<DialogResponse> responses)
+        {
+            if (responses.Count != 0)
+            {
+                ButtonManager.SetDialogButtonOptions(responses);
+            }
+            else
+            {
+                currentDialogPage = 0;
+                CloseDialog();
+            }
+        }
+
         public void NextPage()
         {
-            Debug.Log("next page button clicked");
-            if(currentDialogOption.pages.Count > 0)
+            int numberOfPages = currentDialogOption.pages.Count;
+            if (numberOfPages > 0)
             {
                 currentDialogPage++;
-                Debug.Log(currentDialogOption.pages.Count);
-                if (currentDialogPage >= currentDialogOption.pages.Count)
+                Debug.Log("current page count: " + numberOfPages);
+                // If we are the last page, we need to check if there are any responses
+                Debug.Log("first check: " + (numberOfPages != 0));
+                Debug.Log("second check: " + ((currentDialogPage - 1) >= numberOfPages));
+                if (currentDialogOption.pages.Count != 0 && (currentDialogPage - 1) >= numberOfPages)
                 {
-                    if(currentDialogOption.pages[currentDialogPage - 1].responses.Count != 0)
+                    if(currentDialogOption.pages[numberOfPages - 1].responses.Count != 0)
                     {
-                        ButtonManager.SetDialogButtonOptions(currentDialogOption.pages[currentDialogPage - 1].responses);
+                        HandleDisplayingResponses(currentDialogOption.pages[numberOfPages - 1].responses);
                     }
-                    currentDialogPage = 0;
-                    return;
+                    else
+                    {
+                        currentDialogPage = 0;
+                        CloseDialog();
+                    }
+
                 } else
                 {
                     UpdateDialogText(currentDialogOption.pages[currentDialogPage - 1].body);
@@ -126,18 +157,32 @@ namespace SpriteGame
             else
             {
                 Debug.Log("No more pages to display");
+                HandleDisplayingResponses(currentDialogOption.responses);
             }
             return;
         }
 
-        public void HandleOption(int option)
+        public void HandleOption(int option, DialogResponse response)
         {
-            Debug.Log("Option " + option + " clicked");
-            // Handle the option click
-            // You can use the option index to determine which option was clicked
-            // For example, you can update the dialog text based on the selected option
-            // UpdateDialogText(dialogObject.general.optionsByTier[0].options[option].body);
-            // CloseDialog();
+            try
+            {
+                Debug.Log("Option " + option + " clicked");
+                Debug.Log("Response: " + response.body);
+                currentDialogOption = currentDialogOptions.Find((n) => n.key == response.next);
+                UpdateDialogText(currentDialogOption.body);
+                ButtonManager.DisableButtons();
+                // Handle the option click
+                // You can use the option index to determine which option was clicked
+                // For example, you can update the dialog text based on the selected option
+                // UpdateDialogText(dialogObject.general.optionsByTier[0].options[option].body);
+                // CloseDialog();
+            }
+            catch (Exception e)
+            {
+                Debug.LogError("Error handling option: " + e.Message);
+                CloseDialog();
+            }
+
         }
     }
 }

@@ -3575,6 +3575,7 @@ RectTransform:
   - {fileID: 36021136}
   - {fileID: 1344934865}
   - {fileID: 1921960806}
+  - {fileID: 1538605531}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -3626,11 +3627,11 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 1494464197}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 538.5, y: 292}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1538605532
@@ -3906,10 +3907,17 @@ MonoBehaviour:
   dialogObject:
     general:
       optionsByTier: []
+  inConversation: 0
   DialogCanvas: {fileID: 0}
   DialogBody: {fileID: 0}
   ButtonManager: {fileID: 0}
   currentDialogOptions: []
+  currentDialogOption:
+    key: 
+    image: 
+    body: 
+    pages: []
+    responses: []
 --- !u!1001 &1773829909
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5860,4 +5868,3 @@ SceneRoots:
   - {fileID: 721450302}
   - {fileID: 1494464197}
   - {fileID: 1079847487}
-  - {fileID: 1538605531}

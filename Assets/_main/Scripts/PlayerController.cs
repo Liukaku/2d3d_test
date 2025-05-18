@@ -37,6 +37,7 @@ namespace SpriteGame
         private bool cameraRotating = false;
         private DialogManager chattingWith = null;
 
+
         void Awake()
         {
             followCamera = Camera.main;
@@ -66,7 +67,7 @@ namespace SpriteGame
                 input_q = true;
             }
 
-            if (Input.GetMouseButtonDown(0))
+            if (Input.GetMouseButtonDown(0) && !chattingWith.inConversation)
             {
                 //StartCoroutine(TriggerAttackTimer());
                 input_click = true;

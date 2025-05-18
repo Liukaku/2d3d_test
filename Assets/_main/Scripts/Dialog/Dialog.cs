@@ -34,6 +34,7 @@ namespace SpriteGame
         public List<DialogResponse> responses;
     }
 
+    [System.Serializable]
     public class DialogPage
     {
         public string key;
