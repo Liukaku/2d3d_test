@@ -5,6 +5,9 @@ using TMPro;
 using Unity.VisualScripting;
 using UnityEditor.ShaderGraph.Serialization;
 using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.UIElements;
+using Image = UnityEngine.UI.Image;
 
 namespace SpriteGame
 {
@@ -27,12 +30,27 @@ namespace SpriteGame
         [SerializeField]
         private DialogOption currentDialogOption = new();
         private int currentDialogPage = 0;
+        private Image spriteRenderer;
+        [SerializeField]
+        private Dictionary<string, Sprite> sprites;
+
+
 
         private void Awake()
         {
             DialogCanvas = GameObject.Find("DialogCanvas");
             DialogBody = GameObject.Find("DialogBodyText").GetComponent<TextMeshProUGUI>();
             ButtonManager = DialogCanvas.GetComponentInChildren<ButtonManager>();
+            GameObject conversationImage = GameObject.Find("ConversationImage");
+            spriteRenderer = conversationImage.GetComponent<Image>();
+            sprites = new Dictionary<string, Sprite>();
+            // Load the base image
+            Sprite[] loadedSprites = Resources.LoadAll<Sprite>("Images/Characters/" + CharacterDialogFilename);
+            Debug.Log(loadedSprites.Length + " sprites loaded from Resources/Images/Characters/" + CharacterDialogFilename);
+            foreach (Sprite sprite in loadedSprites)
+            {
+                sprites.Add(sprite.name, sprite);
+            }
             DialogCanvas.SetActive(false);
 
 
@@ -105,7 +123,22 @@ namespace SpriteGame
             DialogCanvas.SetActive(true);
             PauseGameForDialog(true);
             UpdateDialogText(currentDialogOption.body);
+            SetConversationImage(currentDialogOption.image);
             ButtonManager.SetDialogManager(this);
+        }
+
+        // set the ConversationImage object sprite to the character image
+        public void SetConversationImage(string imageName)
+        {
+            if (sprites.ContainsKey(imageName))
+            {
+                spriteRenderer.sprite = sprites[imageName];
+            }
+            else
+            {
+                Debug.LogError("Sprite not found: " + imageName);
+                spriteRenderer.sprite = sprites["default"];
+            }
         }
 
         public void UpdateDialogText(string bodyText)

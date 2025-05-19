@@ -10,3 +10,8 @@ TODO:
 - Dialog is generally in place now
 	- handle quests?
 	- track player vibe
+
+Done:
+[x] basic dialog tree
+[x] display images depending on the dialog options
+[] handle play vibe based on response 
