@@ -10,8 +10,13 @@ TODO:
 - Dialog is generally in place now
 	- handle quests?
 	- track player vibe
+- Have enemies AND NPCs 
+	- have both of them be able to walk around
+	- a basic behaviour tree 
+- interactable objects
+
 
 Done:
-[x] basic dialog tree
-[x] display images depending on the dialog options
-[] handle play vibe based on response 
+- [x] basic dialog tree
+- [x] display images depending on the dialog options
+- [] handle play vibe based on response 
