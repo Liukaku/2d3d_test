@@ -67,7 +67,7 @@ namespace SpriteGame
                 input_q = true;
             }
 
-            if (Input.GetMouseButtonDown(0) && !chattingWith.inConversation)
+            if (Input.GetMouseButtonDown(0) && !isInConversation())
             {
                 //StartCoroutine(TriggerAttackTimer());
                 input_click = true;
@@ -175,6 +175,17 @@ namespace SpriteGame
             m_ChController.Move(forwardSpeed * speed * Time.fixedDeltaTime * targetDirection);
         }
 
+        private bool isInConversation()
+        {
+            if(chattingWith != null && chattingWith.inConversation)
+            {
+                return true;
+            } else
+            {
+                return false;
+            }
+        }
+
         private void HandleSpriteRotation()
         {
             if (Input.GetAxis("Horizontal") < 0)
@@ -231,7 +242,8 @@ namespace SpriteGame
 
         private void StartInteract()
         {
-            Collider[] chatters = GetCollidersByTag(2f, "Enemy");
+            Collider[] chatters = GetCollidersByTag(2f, "NPC");
+            Debug.Log(chatters);
             Collider chat = chatters[0];
             Debug.Log("Chatting with: " + chat.gameObject.name);
             chattingWith = chat.GetComponent<DialogManager>();
@@ -284,6 +296,14 @@ namespace SpriteGame
             m_SpikeAttack.SetTarget(filteredColliders[targetIndex].transform);
 
         }
-    }
 
+        private void OnDrawGizmos()
+        {
+            Color c = new Color(0.0f, 0.0f, 1.0f, 0.5f);
+            UnityEditor.Handles.color = c;
+
+            // draw a circle at current position with a radius of 2
+            UnityEditor.Handles.DrawWireDisc(transform.position, Vector3.up, 2f);
+        }
+    }
 }

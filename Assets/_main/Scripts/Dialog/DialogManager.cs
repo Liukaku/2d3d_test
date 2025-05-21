@@ -51,7 +51,6 @@ namespace SpriteGame
             {
                 sprites.Add(sprite.name, sprite);
             }
-            DialogCanvas.SetActive(false);
 
 
             // load in the dialog json file from Assets/_main/Scripts
@@ -78,7 +77,7 @@ namespace SpriteGame
         // Start is called before the first frame update
         void Start()
         {
-
+            DialogCanvas.SetActive(false);
         }
 
         // Update is called once per frame
