@@ -7,6 +7,8 @@ namespace SpriteGame
 {
     public class ThrowAttack : MonoBehaviour
     {
+        public bool UseAutoTarget = true;
+
         public Vector3 targetVelocity = new Vector3(-1.99f, 3.64f, 3.38f);
         [SerializeField]
         private Transform Target;
@@ -31,7 +33,7 @@ namespace SpriteGame
         public float HistoricalTime = 1f;
         [Range(1, 100)]
         public int HistoricalResolution = 10;
-        private Queue<Vector3> HistoricalPositions;
+        public Queue<Vector3> HistoricalPositions;
 
         private float HistoricalPositionInterval;
         private float LastHistoryRecordedTime;
@@ -39,65 +41,37 @@ namespace SpriteGame
         private float SpherecastRadius = 0.5f;
         private float LastAttackTime;
 
+        private int capacity;
 
-        private void Start()
+        private void Awake()
         {
             AttackProjectile.useGravity = false;
             AttackProjectile.isKinematic = true;
 
             GetNearestEnemy(new Vector3(0,0,0));
-            //SpherecastRadius = AttackProjectile.GetComponent<SphereCollider>().radius;
-            //LastAttackTime = Random.Range(0, 5);
 
-            //int capacity = Mathf.CeilToInt(HistoricalResolution * HistoricalTime);
-            //HistoricalPositions = new Queue<Vector3>(capacity);
-            //for (int i = 0; i < capacity; i++)
-            //{
-            //    HistoricalPositions.Enqueue(Target.position);
-            //}
-            //HistoricalPositionInterval = HistoricalTime / HistoricalResolution;
+            capacity = Mathf.CeilToInt(HistoricalResolution * HistoricalTime);
+            HistoricalPositions = new Queue<Vector3>(capacity);
         }
 
         private void FixedUpdate()
         {
-
+            if (LastHistoryRecordedTime + HistoricalPositionInterval < Time.time && Target != null)
+            {
+                LastHistoryRecordedTime = Time.time;
+                if (HistoricalPositions.Count >= capacity)
+                {
+                    HistoricalPositions.Dequeue();
+                }
+                HistoricalPositions.Enqueue(Target.position);
+            }
         }
-
-
-        //private void Update()
-        //{
-        //    if (Time.time > LastAttackTime + AttackDelay
-        //        && Physics.SphereCast(
-        //            transform.position,
-        //            SpherecastRadius,
-        //            (Target.transform.position + Vector3.up - transform.position).normalized,
-        //            out RaycastHit hit,
-        //            float.MaxValue,
-        //            SightLayers)
-        //        && hit.transform == Target)
-        //    {
-        //        LastAttackTime = Time.time;
-        //        AttackProjectile.transform.SetParent(transform, true);
-        //        AttackProjectile.transform.localPosition = new Vector3(0, 0, 1f);
-        //        AttackProjectile.useGravity = false;
-        //        AttackProjectile.velocity = Vector3.zero;
-        //        StartCoroutine(Attack());
-        //    }
-
-        //    if (LastHistoryRecordedTime + HistoricalPositionInterval < Time.time)
-        //    {
-        //        LastHistoryRecordedTime = Time.time;
-        //        HistoricalPositions.Dequeue();
-        //        HistoricalPositions.Enqueue(Target.position);
-        //    }
-        //}
 
         public IEnumerator Attack(Vector3 originPosition)
         {
             originPosition.y += 0.2f;
             originPosition.x += Random.Range(0.2f, 0.5f);
             AttackProjectile.gameObject.SetActive(true);
-            //AttackProjectile.transform.SetParent(null, true);
 
             if(Target == null)
             {
@@ -108,6 +82,12 @@ namespace SpriteGame
                 Target.position,
                 originPosition
                 );
+
+            if (UseAutoTarget)
+            {
+                throwData = GetPredictedPositionThrowData(throwData, Target.position, originPosition);
+            }
+
             targetVelocity = throwData.ThrowVelocity;
 
             AttackProjectile.transform.position = originPosition;
@@ -136,7 +116,6 @@ namespace SpriteGame
         {
             yield return new WaitForSeconds(timer);
             AttackProjectile.gameObject.SetActive(false);
-            //AttackProjectile.velocity = Vector3.zero;
             AttackProjectile.isKinematic = true;
             AttackProjectile.useGravity = false;
         }
@@ -144,6 +123,15 @@ namespace SpriteGame
         public void SetTarget(Transform target)
         {
             Target = target;
+
+            int capacity = Mathf.CeilToInt(HistoricalResolution * HistoricalTime);
+            HistoricalPositions = new Queue<Vector3>(capacity);
+            for (int i = 0; i < capacity; i++)
+            {
+                HistoricalPositions.Enqueue(Target.position);
+            }
+            HistoricalPositionInterval = HistoricalTime / HistoricalResolution;
+
         }
 
         public void GetNearestEnemy(Vector3 originPosition)
@@ -213,6 +201,43 @@ namespace SpriteGame
                 DeltaXZ = deltaXZ,
                 DeltaY = deltaY
             };
+        }
+
+        private ThrowData GetPredictedPositionThrowData(ThrowData DirectThrowData, Vector3 TargetPosition, Vector3 originPosition)
+        {
+            Vector3 throwVelocity = DirectThrowData.ThrowVelocity;
+            throwVelocity.y = 0;
+            float time = DirectThrowData.DeltaXZ / throwVelocity.magnitude;
+            Vector3 playerMovement;
+
+
+            Vector3[] positions = HistoricalPositions.ToArray();
+            Vector3 averageVelocity = Vector3.zero;
+            for (int i = 1; i < positions.Length; i++)
+            {
+                averageVelocity += (positions[i] - positions[i - 1]) / HistoricalPositionInterval;
+            }
+            averageVelocity /= HistoricalTime * HistoricalResolution;
+            playerMovement = averageVelocity;
+
+            Vector3 newTargetPosition = new Vector3(
+                TargetPosition.x + playerMovement.x,
+                TargetPosition.y + playerMovement.y,
+                TargetPosition.z + playerMovement.z
+            );
+
+            // Option Calculate again the trajectory based on target position
+            ThrowData predictiveThrowData = CalculateThrowData(
+                newTargetPosition,
+                originPosition
+            );
+
+            predictiveThrowData.ThrowVelocity = Vector3.ClampMagnitude(
+                predictiveThrowData.ThrowVelocity,
+                MaxThrowForce
+            );
+
+            return predictiveThrowData;
         }
 
         private struct ThrowData

@@ -20,4 +20,5 @@ TODO:
 Done:
 - [x] basic dialog tree
 - [x] display images depending on the dialog options
+- [x] target predection on ranged attacks added
 - [ ] handle play vibe based on response 
