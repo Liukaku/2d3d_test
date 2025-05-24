@@ -18,9 +18,15 @@ namespace SpriteGame
         public bool canRotateCamera = true;
 
         private float sprintSpeed = 4.0f;
+        private float dashSpeed = 10.0f;
+        private float dashCooldown = 3.0f; // seconds
+        private float dashTimer = 20.0f; // seconds
+        private float dashCooldownTimer = 0.0f; // seconds
+
         private float defaultSpeed;
         private Vector3 movement;
         public float forwardSpeed;
+
         private Camera followCamera;
         private CharacterController m_ChController;
         private ThrowAttack m_ThrowAttack;
@@ -102,6 +108,7 @@ namespace SpriteGame
             //Debug.Log(Input.GetAxis("Horizontal"));
             HandleVerticalMovement();
             HandleSpriteRotation();
+            DashCooldownHandler();
 
             if (input_click && !cameraRotating)
             {
@@ -148,8 +155,7 @@ namespace SpriteGame
 
             if (Input.GetKey(KeyCode.LeftShift))
             {
-                speed = sprintSpeed;
-                //forwardSpeed = Mathf.MoveTowards(maxForwardSpeed, 0.6f, Time.fixedDeltaTime);
+                DashToSprint();
 
             }
             else
@@ -173,6 +179,36 @@ namespace SpriteGame
 
 
             m_ChController.Move(forwardSpeed * speed * Time.fixedDeltaTime * targetDirection);
+        }
+
+        private void DashCooldownHandler()
+        {
+            // Check if the dash is on cooldown
+            if (dashCooldownTimer > 0)
+            {
+                dashCooldownTimer -= Time.deltaTime;
+            }
+        }
+
+        public void DashToSprint()
+        {
+            if(dashCooldownTimer <= 0)
+            {
+                StartCoroutine(DashCoroutine());
+
+                // Reset dash timer and cooldown
+                dashCooldownTimer = dashCooldown;
+            }
+
+        }
+
+        private IEnumerator DashCoroutine()
+        {
+            speed = dashSpeed;
+
+            yield return new WaitForSeconds(0.1f);
+            speed = sprintSpeed;
+
         }
 
         private bool isInConversation()

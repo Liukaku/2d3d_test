@@ -6098,6 +6098,10 @@ PrefabInstance:
       propertyPath: TargetIndicator
       value: 
       objectReference: {fileID: 1845427722}
+    - target: {fileID: 3786539617501861530, guid: f25dc81c1842ef14abd0488b00cfe334, type: 3}
+      propertyPath: canRotateCamera
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5941135482232507854, guid: f25dc81c1842ef14abd0488b00cfe334, type: 3}
       propertyPath: AttackObject
       value: 
