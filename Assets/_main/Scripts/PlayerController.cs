@@ -278,27 +278,45 @@ namespace SpriteGame
 
         private void StartInteract()
         {
-            Collider[] chatters = GetCollidersByTag(2f, "NPC");
+            Collider[] chatters = GetCollidersByTag(2f, "NPC", "Interactable");
             Debug.Log(chatters);
             Collider chat = chatters[0];
-            Debug.Log("Chatting with: " + chat.gameObject.name);
-            chattingWith = chat.GetComponent<DialogManager>();
-            if (chattingWith != null)
+            if (chat.CompareTag("NPC"))
             {
+                Debug.Log("Chatting with: " + chat.gameObject.name);
+                if (chat.TryGetComponent<DialogManager>(out chattingWith))
+                {
 
-                chattingWith.StartDialog(2.0f);
+                    chattingWith.StartDialog(2.0f);
+                    return;
+                }
+                else
+                {
+                    Debug.Log("No one to chat with");
+                    return;
+                }
             }
-            else
+            if (chat.CompareTag("Interactable"))
             {
-                Debug.Log("No one to chat with");
+                if (chat.TryGetComponent<Interactable>(out var interactable))
+                {
+                    interactable.Interact();
+                    return;
+                }
+                else
+                {
+                    Debug.Log("No interactable object found");
+                    return;
+                }
             }
+
         }
 
 
-        private Collider[] GetCollidersByTag(float distance, string tag)
+        private Collider[] GetCollidersByTag(float distance, string tag, string tagTwo = null)
         {
             Collider[] colliderArray = Physics.OverlapSphere(transform.position, distance);
-            return colliderArray.Where(c => c.CompareTag(tag)).ToArray();
+            return colliderArray.Where(c => c.CompareTag(tag) || c.CompareTag(tagTwo)).ToArray();
         }
 
         public Collider[] targets;

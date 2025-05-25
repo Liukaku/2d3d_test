@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 7506139544247538783}
   - component: {fileID: 841760201513571639}
   - component: {fileID: 3786539617501861530}
+  - component: {fileID: 9223210841847560529}
   - component: {fileID: 2501380499082442627}
   - component: {fileID: 5941135482232507854}
   - component: {fileID: 5247600090528102268}
@@ -113,6 +114,18 @@ MonoBehaviour:
   canRotateCamera: 0
   forwardSpeed: 0
   targets: []
+--- !u!114 &9223210841847560529
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 747066642667256776}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 39c2556cd67bf7f4583821d615e89e7c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &2501380499082442627
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -125,6 +138,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4790dcfa4d3818347adce4c4d138bebd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  UseAutoTarget: 1
   targetVelocity: {x: -1.99, y: 3.64, z: 3.38}
   Target: {fileID: 0}
   MaxThrowForce: 25

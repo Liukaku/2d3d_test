@@ -60,11 +60,13 @@
     <Analyzer Include="C:\Program Files\Unity\Hub\Editor\2022.3.43f1\Editor\Data\Tools\Unity.SourceGenerators\Unity.Properties.SourceGenerator.dll" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\_main\Scripts\Items\ExamineButtonManager.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_TextEventHandler.cs" />
     <Compile Include="Assets\RunemarkStudio\DarkFantasyKit\Scripts\Transformers\RMRendererToggle.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\VertexShakeA.cs" />
     <Compile Include="Assets\_main\Scripts\Dialog\Dialog.cs" />
     <Compile Include="Assets\_main\Scripts\SceneChange.cs" />
+    <Compile Include="Assets\_main\Scripts\Items\Interactable.cs" />
     <Compile Include="Assets\RunemarkStudio\DarkFantasyKit\Scripts\Triggers\RMTrigger.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\EnvMapAnimator.cs" />
     <Compile Include="Assets\_main\Scripts\Damageable.cs" />
@@ -88,6 +90,7 @@
     <Compile Include="Assets\_main\Scripts\Dialog\ButtonManager.cs" />
     <Compile Include="Assets\RunemarkStudio\DarkFantasyKit\Scripts\Transformers\RMFunction.cs" />
     <Compile Include="Assets\RunemarkStudio\DarkFantasyKit\Scripts\Triggers\RMTriggerKey.cs" />
+    <Compile Include="Assets\_main\Scripts\Player\Inventory.cs" />
     <Compile Include="Assets\RunemarkStudio\DarkFantasyKit\Scripts\Transformers\RMTranslator.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\CameraController.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\Benchmark03.cs" />
@@ -113,6 +116,7 @@
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_TextEventCheck.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_UiFrameRateCounter.cs" />
     <Compile Include="Assets\_main\Scripts\WeaponStats.cs" />
+    <Compile Include="Assets\_main\Scripts\Items\ItemInteractManager.cs" />
     <Compile Include="Assets\RunemarkStudio\DarkFantasyKit\Scripts\Common\Controllers\CameraController.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\VertexZoom.cs" />
     <Compile Include="Assets\RunemarkStudio\DarkFantasyKit\Scripts\Common\CustomInspectorBase.cs" />

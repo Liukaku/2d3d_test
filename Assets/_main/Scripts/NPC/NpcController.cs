@@ -74,8 +74,6 @@ public class NpcController : MonoBehaviour
         do
         {
             int randomIndex = Random.Range(0, TargetPositions.Count - 1 );
-            Debug.Log("Total Target Positions: " + TargetPositions.Count);
-            Debug.Log("Random Index: " + randomIndex);
             randomTarget = TargetPositions[randomIndex];
         } while (randomTarget == LastVisted);
         return randomTarget;
@@ -149,10 +147,10 @@ public class NpcController : MonoBehaviour
         {
             Animator.SetBool("Walking", false);
         }
-        Debug.Log("Waiting for " + seconds + " seconds...");
+
         yield return new WaitForSeconds(seconds);
         Waiting = false;
-        Debug.Log("Finished waiting.");
+
     }
 
     [SerializeField]
