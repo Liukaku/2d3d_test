@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using SpriteGame;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class ButtonInfo : MonoBehaviour
@@ -11,16 +12,27 @@ public class ButtonInfo : MonoBehaviour
 
     private void Awake()
     {
-        buttonText = GetComponentInChildren<TextMeshProUGUI>();
-        if (buttonText == null)
+        Debug.Log("ButtonInfo: Awake called for " + gameObject.name);
+        GetObject();
+    }
+
+    private void GetObject()
+    {
+        buttonText = transform.gameObject.GetComponentInChildren<TextMeshProUGUI>(buttonText);
+        if (!buttonText)
         {
-            Debug.LogError("ButtonInfo: TextMeshProUGUI component not found in children.");
+            Debug.LogError("ButtonInfo: TextMeshProUGUI component not found in children. For: " + gameObject.name);
         }
     }
+
     public void SetButtonContent(DialogResponse content)
     {     // Set the button text to the response body
         dialogResponse = content;
-        if (buttonText != null)
+        if (buttonText == null)
+        {
+            GetObject();
+            buttonText.text = content.body;
+        } else
         {
             buttonText.text = content.body;
         }

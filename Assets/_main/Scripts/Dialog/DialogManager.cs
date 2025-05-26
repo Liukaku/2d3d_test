@@ -113,17 +113,18 @@ namespace SpriteGame
         public void StartDialog(float vibe)
         {
             inConversation = true;
+            ButtonManager.SetDialogManager(this);
             List<OptionsByTier> tiers = dialogObject.general.optionsByTier.FindAll((n) =>  n.tier <= vibe);
             tiers.Sort((a, b) => a.tier.CompareTo(b.tier));
-            Debug.Log(tiers[0].tier);
+            //Debug.Log(tiers[0].tier);
             currentDialogOptions = tiers[0].options;
             currentDialogOption = currentDialogOptions.Find((n) => n.key == "greeting");
-            Debug.Log(currentDialogOption.pages.Count);
+            //Debug.Log(currentDialogOption.pages.Count);
             DialogCanvas.SetActive(true);
             PauseGameForDialog(true);
             UpdateDialogText(currentDialogOption.body);
             SetConversationImage(currentDialogOption.image);
-            ButtonManager.SetDialogManager(this);
+
         }
 
         // set the ConversationImage object sprite to the character image

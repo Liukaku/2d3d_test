@@ -61,7 +61,7 @@ namespace SpriteGame
                     dialogManager.HandleOption(1);
                     ButtonEnabler(false); // Disable buttons after examining
                     break;
-                case "DropButton":
+                case "DropItemButton":
                     // Handle option three button click
                     Debug.Log("Option three button clicked");
                     dialogManager.HandleOption(2);

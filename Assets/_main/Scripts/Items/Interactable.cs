@@ -10,6 +10,7 @@ namespace SpriteGame
         public string ExamineText = "You see nothing special.";
         public bool MagicRotating = true;
         public bool CanBePickedUp = true;
+        public bool IsInteracting = false;
         private GameObject ParentObject;
         private Inventory PlayerInventory;
         private ItemInteractManager itemInteractManager;

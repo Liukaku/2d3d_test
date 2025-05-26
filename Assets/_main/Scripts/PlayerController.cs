@@ -42,6 +42,7 @@ namespace SpriteGame
         private bool input_one;
         private bool cameraRotating = false;
         private DialogManager chattingWith = null;
+        private Interactable interactable = null;
 
 
         void Awake()
@@ -213,7 +214,7 @@ namespace SpriteGame
 
         private bool isInConversation()
         {
-            if(chattingWith != null && chattingWith.inConversation)
+            if((chattingWith != null && chattingWith.inConversation) || (interactable != null && interactable.IsInteracting))
             {
                 return true;
             } else
@@ -274,6 +275,11 @@ namespace SpriteGame
                 chattingWith.CloseDialog();
                 chattingWith = null;
             }
+
+            if (interactable != null)
+            {
+                interactable = null;
+            }
         }
 
         private void StartInteract()
@@ -298,7 +304,7 @@ namespace SpriteGame
             }
             if (chat.CompareTag("Interactable"))
             {
-                if (chat.TryGetComponent<Interactable>(out var interactable))
+                if (chat.TryGetComponent<Interactable>(out interactable))
                 {
                     interactable.Interact();
                     return;
@@ -316,15 +322,20 @@ namespace SpriteGame
         private Collider[] GetCollidersByTag(float distance, string tag, string tagTwo = null)
         {
             Collider[] colliderArray = Physics.OverlapSphere(transform.position, distance);
-            return colliderArray.Where(c => c.CompareTag(tag) || c.CompareTag(tagTwo)).ToArray();
+            if (string.IsNullOrEmpty(tagTwo))
+            {
+                Debug.Log($"Getting colliders with tag: {tag}");
+                return colliderArray.Where(c => (!c.CompareTag(null) & !c.CompareTag("")) && c.CompareTag(tag)).ToArray();
+            } else
+            {
+                return colliderArray.Where(c => (!c.CompareTag(null) & !c.CompareTag("")) && (c.CompareTag(tag) || c.CompareTag(tagTwo))).ToArray();
+            }
         }
 
         public Collider[] targets;
         private int targetIndex = 0;
         private void ChangeTarget()
         {
-            //Collider[] colliderArray = Physics.OverlapSphere(transform.position, 10f);
-            //Collider[] filteredColliders = colliderArray.Where(c => c.CompareTag("Enemy")).ToArray();
             Collider[] filteredColliders = GetCollidersByTag(10f, "Enemy");
 
 
@@ -332,6 +343,8 @@ namespace SpriteGame
             if (targets.Length == 0 || targets[targetIndex] == null)
             {
                 targetIndex = 0;
+                Debug.Log($"target length: {targets.Length}");
+                Debug.Log($"filteredColliders length: {filteredColliders.Length}");
             } else
             {
                 targetIndex++;
@@ -358,6 +371,7 @@ namespace SpriteGame
 
             // draw a circle at current position with a radius of 2
             UnityEditor.Handles.DrawWireDisc(transform.position, Vector3.up, 2f);
+            UnityEditor.Handles.DrawWireDisc(transform.position, Vector3.up, 10f);
         }
     }
 }

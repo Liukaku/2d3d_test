@@ -12,6 +12,8 @@ public class ItemInteractManager : MonoBehaviour
     [SerializeField]
     private GameObject DialogCanvas;
     [SerializeField]
+    private TextMeshProUGUI DialogName;
+    [SerializeField]                   
     private TextMeshProUGUI DialogBody;
     [SerializeField]
     private ExamineButtonManager ButtonManager;
@@ -24,6 +26,7 @@ public class ItemInteractManager : MonoBehaviour
     {
         InteractableItem = transform.GetComponent<Interactable>();
         DialogCanvas = GameObject.Find("ItemExamineCanvas");
+        DialogName = GameObject.Find("ItemExamineName").GetComponent<TextMeshProUGUI>();
         DialogBody = GameObject.Find("ItemExamineBody").GetComponent<TextMeshProUGUI>();
         ButtonManager = DialogCanvas.GetComponentInChildren<ExamineButtonManager>();
 
@@ -39,18 +42,18 @@ public class ItemInteractManager : MonoBehaviour
         } else
         {
             // enable the dialog canvas and set the item name in the dialog body
+            DialogName.text = InteractableItem.Name;
             DialogBody.text = "";
             DialogCanvas.SetActive(true);
             ButtonManager.Initiate(this);
-
+            InteractableItem.IsInteracting = true;
             PauseGameForDialog(true);
         }
     }
     public void PickUp()
     {
         InteractableItem.PickUp();
-        DialogCanvas.SetActive(false); // Hide the dialog canvas after picking up the item
-        PauseGameForDialog(false); // Resume the game after picking up the item
+        EndInteract();
     }
 
     public void Examine()
@@ -62,13 +65,20 @@ public class ItemInteractManager : MonoBehaviour
 
     public void DropItem()
     {
-
+        EndInteract();
     }
 
     public void EndExamine()
     {
         DialogBody.text = "";
         ButtonManager.Initiate(this);
+    }
+
+    private void EndInteract()
+    {
+        DialogCanvas.SetActive(false); // Hide the dialog canvas after picking up the item
+        PauseGameForDialog(false); // Resume the game after picking up the item
+        InteractableItem.IsInteracting = false; // Reset interaction state
     }
 
     public void HandleOption(int button)
