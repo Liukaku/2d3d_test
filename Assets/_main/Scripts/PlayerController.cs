@@ -34,7 +34,9 @@ namespace SpriteGame
         private readonly int m_hashWalking = Animator.StringToHash("Walking");
         private readonly int m_hashAttack = Animator.StringToHash("AttackOne");
         private Animator m_Animator;
+        private Animator m_ShadowAnimator;
         private SpriteRenderer m_SpriteRenderer;
+        private SpriteRenderer m_CastShadowSpriteRenderer;
         private float verticalSpeed;
         private bool input_q;
         private bool input_e;
@@ -54,6 +56,17 @@ namespace SpriteGame
             m_ThrowAttack = GetComponent<ThrowAttack>();
             m_SpikeAttack = GetComponent<AreaAttack>();
             defaultSpeed = speed;
+            // get CastShadow child object and get its Animator component
+            GameObject shadow = transform.Find("CastShadow").gameObject;
+            if (shadow != null)
+            {
+                m_ShadowAnimator = shadow.GetComponent<Animator>();
+                m_CastShadowSpriteRenderer = shadow.GetComponent<SpriteRenderer>();
+            }
+            else
+            {
+                Debug.LogWarning("CastShadow object not found in PlayerController");
+            }
         }
 
         private void Update()
@@ -171,10 +184,18 @@ namespace SpriteGame
             if (movement.normalized.magnitude > 0)
             {
                 m_Animator.SetBool(m_hashWalking, true);
+                if (m_ShadowAnimator != null)
+                {
+                    m_ShadowAnimator.SetBool(m_hashWalking, true);
+                }
             }
             else
             {
                 m_Animator.SetBool(m_hashWalking, false);
+                if (m_ShadowAnimator != null)
+                {
+                    m_ShadowAnimator.SetBool(m_hashWalking, false);
+                }
             }
 
 
@@ -228,11 +249,13 @@ namespace SpriteGame
             if (Input.GetAxis("Horizontal") < 0)
             {
                 m_SpriteRenderer.flipX = true;
+                m_CastShadowSpriteRenderer.flipX = true;
             }
 
             if (Input.GetAxis("Horizontal") > 0)
             {
                 m_SpriteRenderer.flipX = false;
+                m_CastShadowSpriteRenderer.flipX = false;
             }
         }
 
@@ -246,8 +269,16 @@ namespace SpriteGame
         {
             canMove = false;
             m_Animator.SetBool(m_hashAttack, true);
+            if (m_ShadowAnimator != null)
+            {
+                m_ShadowAnimator.SetBool(m_hashAttack, true);
+            }
             yield return new WaitForSeconds(0.5f);
             m_Animator.SetBool(m_hashAttack, false);
+            if (m_ShadowAnimator != null)
+            {
+                m_ShadowAnimator.SetBool(m_hashAttack, false);
+            }
             canMove = true;
         }
 
