@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEditor.ShaderGraph.Serialization;
@@ -18,6 +19,10 @@ namespace SpriteGame
         public string BaseImage;
         public DialogObject dialogObject;
         public bool inConversation = false;
+        public string DialogUid;
+        public string CurrentQuestUid;
+
+        private QuestLog questLog;
 
         [SerializeField]
         private GameObject DialogCanvas;
@@ -110,21 +115,39 @@ namespace SpriteGame
             DialogBody.text = "";
         }
 
-        public void StartDialog(float vibe)
+        public void StartDialog(float vibe, QuestLog log)
         {
             inConversation = true;
             ButtonManager.SetDialogManager(this);
-            List<OptionsByTier> tiers = dialogObject.general.optionsByTier.FindAll((n) =>  n.tier <= vibe);
-            tiers.Sort((a, b) => a.tier.CompareTo(b.tier));
-            //Debug.Log(tiers[0].tier);
-            currentDialogOptions = tiers[0].options;
+
+            // This loops through the quests, checks if the current step's targetUid matches the DialogUid,
+            questLog = log;
+            List<Quest> questsForNpc = questLog.quests.Where(q => q.steps[q.currentStep].targetUid == DialogUid).ToList();
+
+            if (questsForNpc.Count > 0)
+            {
+                Debug.Log("Found " + questsForNpc.Count + " quests for NPC: " + DialogUid);
+                var dialogOptions = dialogObject.story.quests.Where(d => d.questUid == questsForNpc[0].uid).ToList();
+                // filter out the dialog options based on the current quest step
+                var index = dialogOptions.FindIndex(d => d.questStepIndex == questsForNpc[0].currentStep);
+                currentDialogOptions = dialogOptions[index].options;
+                CurrentQuestUid = dialogOptions[index].questUid;
+
+            } else
+            {
+                List<OptionsByTier> tiers = dialogObject.general.optionsByTier.FindAll((n) => n.tier <= vibe);
+                tiers.Sort((a, b) => a.tier.CompareTo(b.tier));
+                //Debug.Log(tiers[0].tier);
+                currentDialogOptions = tiers[0].options;
+                //Debug.Log(currentDialogOption.pages.Count);
+            }
+
             currentDialogOption = currentDialogOptions.Find((n) => n.key == "greeting");
-            //Debug.Log(currentDialogOption.pages.Count);
             DialogCanvas.SetActive(true);
             PauseGameForDialog(true);
             UpdateDialogText(currentDialogOption.body);
             SetConversationImage(currentDialogOption.image);
-
+            ButtonManager.DisableAllButtons();
         }
 
         // set the ConversationImage object sprite to the character image
@@ -162,6 +185,13 @@ namespace SpriteGame
         public void NextPage()
         {
             int numberOfPages = currentDialogOption.pages.Count;
+
+            if (currentDialogOption.progressQuest == true)
+            {
+                var qIndex = questLog.quests.FindIndex(q => q.uid == CurrentQuestUid);
+                questLog.ProgressQuest(questLog.quests[qIndex]);
+            }
+
             if (numberOfPages > 0)
             {
                 currentDialogPage++;
@@ -199,11 +229,12 @@ namespace SpriteGame
         {
             try
             {
-                Debug.Log("Option " + option + " clicked");
-                Debug.Log("Response: " + response.body);
+                //Debug.Log("Option " + option + " clicked");
+                //Debug.Log("Response: " + response.body);
                 currentDialogOption = currentDialogOptions.Find((n) => n.key == response.next);
                 UpdateDialogText(currentDialogOption.body);
-                ButtonManager.DisableButtons();
+                ButtonManager.DisableAllButtons();
+                ButtonManager.NextPageButton.gameObject.SetActive(true);
                 // Handle the option click
                 // You can use the option index to determine which option was clicked
                 // For example, you can update the dialog text based on the selected option

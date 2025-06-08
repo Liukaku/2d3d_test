@@ -12,7 +12,6 @@ public class ButtonInfo : MonoBehaviour
 
     private void Awake()
     {
-        Debug.Log("ButtonInfo: Awake called for " + gameObject.name);
         GetObject();
     }
 

@@ -30,6 +30,7 @@ namespace SpriteGame
         public string key;
         public string image;
         public string body;
+        public bool progressQuest = false;
         public List<DialogPage> pages;
         public List<DialogResponse> responses;
     }
@@ -54,6 +55,14 @@ namespace SpriteGame
     [System.Serializable]
     public class Story
     {
-        // Add fields as needed for story-specific dialog
+        public List<StoryQuests> quests;
+    }
+
+    [System.Serializable]
+    public class StoryQuests
+    {
+        public string questUid;
+        public int questStepIndex;
+        public List<DialogOption> options;
     }
 }

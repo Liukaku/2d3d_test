@@ -17,6 +17,8 @@ namespace SpriteGame
         public GameObject TargetIndicator;
         public bool canRotateCamera = true;
 
+        public QuestLog questLog;
+
         private float sprintSpeed = 4.0f;
         private float dashSpeed = 10.0f;
         private float dashCooldown = 3.0f; // seconds
@@ -55,6 +57,7 @@ namespace SpriteGame
             m_SpriteRenderer = GetComponent<SpriteRenderer>();
             m_ThrowAttack = GetComponent<ThrowAttack>();
             m_SpikeAttack = GetComponent<AreaAttack>();
+            questLog = GetComponent<QuestLog>();
             defaultSpeed = speed;
             // get CastShadow child object and get its Animator component
             GameObject shadow = transform.Find("CastShadow").gameObject;
@@ -316,7 +319,7 @@ namespace SpriteGame
         private void StartInteract()
         {
             Collider[] chatters = GetCollidersByTag(2f, "NPC", "Interactable");
-            Debug.Log(chatters);
+            //Debug.Log(chatters);
             Collider chat = chatters[0];
             if (chat.CompareTag("NPC"))
             {
@@ -324,7 +327,7 @@ namespace SpriteGame
                 if (chat.TryGetComponent<DialogManager>(out chattingWith))
                 {
 
-                    chattingWith.StartDialog(2.0f);
+                    chattingWith.StartDialog(2.0f, questLog);
                     return;
                 }
                 else
@@ -356,10 +359,10 @@ namespace SpriteGame
             if (string.IsNullOrEmpty(tagTwo))
             {
                 Debug.Log($"Getting colliders with tag: {tag}");
-                return colliderArray.Where(c => (!c.CompareTag(null) & !c.CompareTag("")) && c.CompareTag(tag)).ToArray();
+                return colliderArray.Where(c => (!c.CompareTag(null) && !c.CompareTag("")) && c.CompareTag(tag)).ToArray();
             } else
             {
-                return colliderArray.Where(c => (!c.CompareTag(null) & !c.CompareTag("")) && (c.CompareTag(tag) || c.CompareTag(tagTwo))).ToArray();
+                return colliderArray.Where(c => (!c.CompareTag(null) && !c.CompareTag("")) && (c.CompareTag(tag) || c.CompareTag(tagTwo))).ToArray();
             }
         }
 

@@ -48,7 +48,7 @@ namespace SpriteGame
 
         public void OnButtonClick(string buttonLabel)
         {
-            Debug.Log("Button clicked: " + buttonLabel);
+            //Debug.Log("Button clicked: " + buttonLabel);
             // buttons: "NextPageButton", "OptionOne", "OptionTwo", "OptionThree", "OptionFour"
             switch (buttonLabel)
             {
@@ -109,7 +109,7 @@ namespace SpriteGame
             }
         }
 
-        private void DisableAllButtons()
+        public void DisableAllButtons()
         {
             ResponseButtonOne.gameObject.SetActive(false);
             ResponseButtonTwo.gameObject.SetActive(false);
@@ -119,14 +119,22 @@ namespace SpriteGame
 
         public void SetDialogButtonOptions(List<DialogResponse> responses)
         {
+
             Debug.Log(responses);
             DisableAllButtons();
             dialogManager.ClearDialogBody();
             ResponseButtons.SetActive(true);
+            bool hasEnabled = false;
             for (int i = 0; i < responses.Count; i++)
             {
                 Debug.Log("Response " + i + ": " + responses[i].body);
                 ButtonEnabler(i, responses[i]);
+                hasEnabled = true;
+            }
+
+            if (hasEnabled)
+            {
+                NextPageButton.gameObject.SetActive(false);
             }
 
         }

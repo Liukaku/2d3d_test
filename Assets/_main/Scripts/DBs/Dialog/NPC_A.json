@@ -72,5 +72,84 @@
             }
         ]
     },
-    "story": {}
+    "story": {
+        "quests": [
+            {
+                "questUid": "Quest_Test",
+                "questStepIndex": 0,
+                "options": [
+                    {
+                        "key": "greeting",
+                        "image": "NPC_A.png",
+                        "body": "What do you want?",
+                        "responses": [
+                            {
+                                "body": "Do you need any help?",
+                                "next": "start_quest",
+                                "vibe": 0
+                            },
+                            {
+                                "body": "Just passing by.",
+                                "next": "bye",
+                                "vibe": 1
+                            }
+                        ]
+                    },
+                    {
+                        "key": "start_quest",
+                        "body": "Can you pass a message onto this guy for me?",
+                        "responses": [
+                            {
+                                "body": "Sure I guess",
+                                "next": "quest_details",
+                                "vibe": 0
+                            },
+                            {
+                                "body": "I'd rather kill myself.",
+                                "next": "bye",
+                                "vibe": 1
+                            }
+                        ]
+                    },
+                    {
+                        "key": "quest_details",
+                        "body": "Okay, tell him to actually do his job for once.",
+                        "progressQuest": true
+                    },
+                    {
+                        "key": "bye",
+                        "body": "Goodbye! Come back if you change your mind.",
+                        "responses": []
+                    }
+                ]
+            },
+            {
+                "questUid": "Quest_Test",
+                "questStepIndex": 2,
+                "options": [
+                    {
+                        "key": "greeting",
+                        "image": "NPC_A.png",
+                        "body": "Did you do it?",
+                        "responses": [
+                            {
+                                "body": "Yeah they were really weird about it.",
+                                "next": "complete_quest",
+                                "vibe": 0
+                            }
+                        ]
+                    },
+                    {
+                        "key": "complete_quest",
+                        "body": "brilliant, here's whatever i have in my pockets.",
+                        "progressQuest": true
+                    },
+                    {
+                        "key": "bye",
+                        "body": "Goodbye! Come back once you have completed the quest."
+                    }
+                ]
+            }
+        ]
+    }
 }

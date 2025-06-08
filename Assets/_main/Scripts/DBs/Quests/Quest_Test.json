@@ -1,0 +1,26 @@
+{
+    "uid": "Quest_Test",
+    "title": "Test Quest",
+    "description": "This is a test quest to demonstrate the JSON structure.",
+    "state": "NOT_STARTED",
+    "steps":[
+        {
+            "stepCount": 0,
+            "type": "TALK",
+            "targetUid": "NPC_001",
+            "description": "Talk to the NPC to start the quest."
+        },
+        {
+            "stepCount": 1,
+            "type": "TALK",
+            "targetUid": "NPC_002",
+            "description": "Talk to the NPC to get some answers."
+        },
+        {
+            "stepCount": 2,
+            "type": "TALK",
+            "targetUid": "NPC_001",
+            "description": "Talk to the original NPC to conclude the quest."
+        }
+    ]
+}
