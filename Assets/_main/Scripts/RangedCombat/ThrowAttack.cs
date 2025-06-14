@@ -21,11 +21,11 @@ namespace SpriteGame
         + "Using a value of 1 the agent will always throw with the MaxThrowForce below.")]
         public float ForceRatio = 0;
         [SerializeField]
-        private Rigidbody AttackProjectile;
+        public Rigidbody AttackProjectile;
         public float CastRadius = 10f;
 
         [SerializeField]
-        private LayerMask SightLayers;
+        public LayerMask SightLayers;
         [SerializeField]
         private float AttackDelay = 5f;
 
@@ -91,18 +91,25 @@ namespace SpriteGame
             targetVelocity = throwData.ThrowVelocity;
 
             AttackProjectile.transform.position = originPosition;
-            DoThrow(throwData, originPosition);
+            DoThrow(throwData, originPosition, 0f);
             AttackProjectile.excludeLayers = SightLayers;
             yield return new WaitForSeconds(0.1f);
             AttackProjectile.excludeLayers = 0;
             yield return null;
         }
 
-        private void DoThrow(ThrowData ThrowData, Vector3 originPosition)
+        public void DoThrow(ThrowData ThrowData, Vector3 originPosition, float attackDelay)
         {
             AttackProjectile.useGravity = true;
             AttackProjectile.isKinematic = false;
             AttackProjectile.AddForce(ThrowData.ThrowVelocity, ForceMode.VelocityChange);
+
+            //override the delay if it is set to 0
+            if (attackDelay == 0f)
+            {
+                attackDelay = AttackDelay;
+            }
+
             DisableAfterTimer(AttackDelay);
 
         }
@@ -146,7 +153,7 @@ namespace SpriteGame
             }
         }
 
-        private ThrowData CalculateThrowData(Vector3 TargetPosition, Vector3 StartPosition)
+        public ThrowData CalculateThrowData(Vector3 TargetPosition, Vector3 StartPosition)
         {
             Vector3 displacement = new Vector3(
                 TargetPosition.x,
@@ -203,7 +210,7 @@ namespace SpriteGame
             };
         }
 
-        private ThrowData GetPredictedPositionThrowData(ThrowData DirectThrowData, Vector3 TargetPosition, Vector3 originPosition)
+        public ThrowData GetPredictedPositionThrowData(ThrowData DirectThrowData, Vector3 TargetPosition, Vector3 originPosition)
         {
             Vector3 throwVelocity = DirectThrowData.ThrowVelocity;
             throwVelocity.y = 0;
@@ -240,7 +247,7 @@ namespace SpriteGame
             return predictiveThrowData;
         }
 
-        private struct ThrowData
+        public struct ThrowData
         {
             public Vector3 ThrowVelocity;
             public float Angle;

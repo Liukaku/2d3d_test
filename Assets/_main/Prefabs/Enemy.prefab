@@ -16,6 +16,8 @@ GameObject:
   - component: {fileID: 293810161717985063}
   - component: {fileID: 7425043803589275965}
   - component: {fileID: 5758662458906122122}
+  - component: {fileID: 7474069171148149762}
+  - component: {fileID: 5215406042767352040}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: Enemy
@@ -193,3 +195,41 @@ NavMeshAgent:
   m_BaseOffset: 0.94
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!114 &7474069171148149762
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2673105378128315246}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 65e6cb17cf15c274a8037a6841862b81, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  attackRange: 10
+--- !u!114 &5215406042767352040
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2673105378128315246}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d94f5b479eb5c534f831641a185292a7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  UseAutoTarget: 1
+  targetVelocity: {x: -1.99, y: 3.64, z: 3.38}
+  Target: {fileID: 0}
+  MaxThrowForce: 25
+  ForceRatio: 0
+  AttackProjectile: {fileID: 0}
+  CastRadius: 10
+  SightLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  AttackDelay: 5
+  HistoricalTime: 1
+  HistoricalResolution: 10

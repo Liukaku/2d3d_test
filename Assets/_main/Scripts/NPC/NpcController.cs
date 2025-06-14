@@ -28,7 +28,6 @@ public class NpcController : MonoBehaviour
 
     private List<Vector3> TargetPositions = new List<Vector3>();
 
-    // Start is called before the first frame update
     void Awake()
     {
         SetDestinationsByType();

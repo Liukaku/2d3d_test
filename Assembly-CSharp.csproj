@@ -81,6 +81,7 @@
     <Compile Include="Assets\RunemarkStudio\DarkFantasyKit\Scripts\Common\Controllers\RMTopDownCamera.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_DigitValidator.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_FrameRateCounter.cs" />
+    <Compile Include="Assets\_main\Scripts\NPC\FireBallEnemyController.cs" />
     <Compile Include="Assets\_main\Scripts\CameraFollow.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\Benchmark01.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TextMeshSpawner.cs" />
@@ -103,6 +104,7 @@
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMPro_InstructionOverlay.cs" />
     <Compile Include="Assets\_main\Scripts\Quests\Quest.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\VertexShakeB.cs" />
+    <Compile Include="Assets\_main\Scripts\RangedCombat\EnemyThrowAttack.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\DropdownSample.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\VertexColorCycler.cs" />
     <Compile Include="Assets\_main\Scripts\AnimationScripts\PlayerAttackScript.cs" />
@@ -136,6 +138,7 @@
     <Compile Include="Assets\RunemarkStudio\DarkFantasyKit\Scripts\Transformers\RMTransformer.cs" />
     <Compile Include="Assets\RunemarkStudio\DarkFantasyKit\Scripts\Common\EditorGUILayoutExtension.cs" />
     <Compile Include="Assets\_main\Scripts\AnimationScripts\TargetIndicator.cs" />
+    <Compile Include="Assets\_main\Scripts\NPC\EnemyController.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_TextInfoDebugTool.cs" />
   </ItemGroup>
   <ItemGroup>
