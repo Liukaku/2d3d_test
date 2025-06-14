@@ -8,6 +8,7 @@ namespace SpriteGame
     {
         public string Name = "Generic Item";
         public string ExamineText = "You see nothing special.";
+        public string ItemUuid = "item_generic";
         public bool MagicRotating = true;
         public bool CanBePickedUp = true;
         public bool IsInteracting = false;

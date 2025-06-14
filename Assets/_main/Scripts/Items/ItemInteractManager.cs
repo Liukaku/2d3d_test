@@ -21,6 +21,9 @@ public class ItemInteractManager : MonoBehaviour
     private Image spriteRenderer;
     [SerializeField]
     private Dictionary<string, Sprite> sprites;
+
+    private QuestLog questLog;
+
     // Start is called before the first frame update
     void Awake()
     {
@@ -29,6 +32,7 @@ public class ItemInteractManager : MonoBehaviour
         DialogName = GameObject.Find("ItemExamineName").GetComponent<TextMeshProUGUI>();
         DialogBody = GameObject.Find("ItemExamineBody").GetComponent<TextMeshProUGUI>();
         ButtonManager = DialogCanvas.GetComponentInChildren<ExamineButtonManager>();
+        questLog = FindObjectOfType<QuestLog>();
 
         DialogCanvas.SetActive(false); // Hide the dialog canvas initially
     }
@@ -53,6 +57,7 @@ public class ItemInteractManager : MonoBehaviour
     public void PickUp()
     {
         InteractableItem.PickUp();
+        questLog.ItemPickup(InteractableItem.ItemUuid);
         EndInteract();
     }
 

@@ -33,9 +33,9 @@ namespace SpriteGame
     public class QuestStep
     {
         public QuestState state;
-        public int stepCount;
-        public string targetUid;
-        public int targetCount;
+        public int stepCount; // which step this is in the quest
+        public string targetUid; // UID of the target object (NPC, item, etc.)
+        public int targetCount; // how many of the target object is needed to complete this step
         public string description;
 
         public QuestStep(QuestStepType type, string targetUid, int targetCount, string description, int stepCount)

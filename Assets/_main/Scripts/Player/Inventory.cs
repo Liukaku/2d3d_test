@@ -23,6 +23,8 @@ namespace SpriteGame
                 InventoryItem newItem = new InventoryItem { item = item, quantity = 1 };
                 Items.Add(newItem);
             }
+
+
             Debug.Log($"Added {item.Name} to inventory. Total quantity: {Items.Find(i => i.item == item).quantity}");
         }
 

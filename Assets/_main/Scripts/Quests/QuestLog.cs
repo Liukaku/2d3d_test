@@ -36,5 +36,37 @@ namespace SpriteGame
                 quests[qIndex].state = QuestState.IN_PROGRESS;
             }
         }
+
+        public void ItemPickup(string itemUid)
+        {
+            // separate functions in case i need to add more logic in later
+            CheckUidAgainstStepRequirements(itemUid);
+        }
+
+        public void DefeatNpc(string npcUid)
+        {
+            // separate functions in case i need to add more logic in later
+            CheckUidAgainstStepRequirements(npcUid);
+        }
+
+        private void CheckUidAgainstStepRequirements(string uid)
+        {
+            List<Quest> activeQuests = quests.FindAll(q => q.state == QuestState.IN_PROGRESS);
+            foreach (Quest quest in activeQuests)
+            {
+                QuestStep currStep = quest.steps[quest.currentStep];
+                if (currStep.targetUid == uid && currStep.targetCount > 0)
+                {
+                    currStep.targetCount--;
+                }
+
+                if (currStep.targetCount <= 0)
+                {
+                    currStep.state = QuestState.COMPLETE;
+                    ProgressQuest(quest);
+                    Debug.Log($"Quest '{quest.title}' step {currStep.stepCount} completed.");
+                }
+            }
+        }
     }
 }

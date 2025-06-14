@@ -1,0 +1,20 @@
+{
+    "uid": "Item_Pickup_Quest_Test",
+    "title": "Item Quest",
+    "description": "This is a test quest to demonstrate the JSON including item pickup.",
+    "state": "NOT_STARTED",
+    "steps":[
+        {
+            "stepCount": 0,
+            "type": "TALK",
+            "targetUid": "NPC_002",
+            "description": "Talk to the NPC to start the quest."
+        },
+        {
+            "stepCount": 1,
+            "type": "COLLECT",
+            "targetUid": "item_generic",
+            "description": "Go pick up the spinning cube."
+        }
+    ]
+}
