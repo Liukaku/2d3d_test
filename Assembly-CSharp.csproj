@@ -92,6 +92,7 @@
     <Compile Include="Assets\_main\Scripts\Dialog\ButtonManager.cs" />
     <Compile Include="Assets\RunemarkStudio\DarkFantasyKit\Scripts\Transformers\RMFunction.cs" />
     <Compile Include="Assets\RunemarkStudio\DarkFantasyKit\Scripts\Triggers\RMTriggerKey.cs" />
+    <Compile Include="Assets\_main\Scripts\RangedCombat\SpellStatsAndDamageHandler.cs" />
     <Compile Include="Assets\_main\Scripts\Player\Inventory.cs" />
     <Compile Include="Assets\RunemarkStudio\DarkFantasyKit\Scripts\Transformers\RMTranslator.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\CameraController.cs" />
@@ -108,7 +109,6 @@
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\DropdownSample.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\VertexColorCycler.cs" />
     <Compile Include="Assets\_main\Scripts\AnimationScripts\PlayerAttackScript.cs" />
-    <Compile Include="Assets\_main\Scripts\RangedCombat\SpellOnHit.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\ObjectSpin.cs" />
     <Compile Include="Assets\RunemarkStudio\DarkFantasyKit\Scripts\Transformers\RMColliderToggle.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_PhoneNumberValidator.cs" />
@@ -136,6 +136,7 @@
     <Compile Include="Assets\RunemarkStudio\DarkFantasyKit\Scripts\Common\Controllers\RMFPSController.cs" />
     <Compile Include="Assets\_main\Scripts\RangedCombat\ThrowAttack.cs" />
     <Compile Include="Assets\RunemarkStudio\DarkFantasyKit\Scripts\Transformers\RMTransformer.cs" />
+    <Compile Include="Assets\_main\Scripts\RespawnManager.cs" />
     <Compile Include="Assets\RunemarkStudio\DarkFantasyKit\Scripts\Common\EditorGUILayoutExtension.cs" />
     <Compile Include="Assets\_main\Scripts\AnimationScripts\TargetIndicator.cs" />
     <Compile Include="Assets\_main\Scripts\NPC\EnemyController.cs" />

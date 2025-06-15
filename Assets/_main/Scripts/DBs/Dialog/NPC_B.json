@@ -130,6 +130,23 @@
                         "key": "greeting",
                         "image": "NPC_A.png",
                         "body": "You looking for somethign to do?",
+                        "pages": [
+                            {
+                                "body": "I have a job for you, if you're interested.",
+                                "responses": [
+                                    {
+                                        "body": "Yes pls, i need money.",
+                                        "next": "quest_dialog_01",
+                                        "vibe": 0
+                                    },
+                                    {
+                                        "body": "Just passing by.",
+                                        "next": "bye",
+                                        "vibe": 1
+                                    }
+                                ]
+                            }
+                        ],
                         "responses": [
                             {
                                 "body": "Yes pls, i need money.",

@@ -359,7 +359,7 @@ namespace SpriteGame
             if (string.IsNullOrEmpty(tagTwo))
             {
                 Debug.Log($"Getting colliders with tag: {tag}");
-                return colliderArray.Where(c => (!c.CompareTag(null) && !c.CompareTag("")) && c.CompareTag(tag)).ToArray();
+                return colliderArray.Where(c => !string.IsNullOrEmpty(c.tag) && c.CompareTag(tag)).ToArray();
             } else
             {
                 return colliderArray.Where(c => (!c.CompareTag(null) && !c.CompareTag("")) && (c.CompareTag(tag) || c.CompareTag(tagTwo))).ToArray();
