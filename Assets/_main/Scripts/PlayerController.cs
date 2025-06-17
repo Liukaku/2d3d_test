@@ -47,6 +47,7 @@ namespace SpriteGame
         private bool cameraRotating = false;
         private DialogManager chattingWith = null;
         private Interactable interactable = null;
+        private PauseMenuController pauseMenu;
 
 
         void Awake()
@@ -58,6 +59,7 @@ namespace SpriteGame
             m_ThrowAttack = GetComponent<ThrowAttack>();
             m_SpikeAttack = GetComponent<AreaAttack>();
             questLog = GetComponent<QuestLog>();
+            pauseMenu = FindObjectOfType<PauseMenuController>();
             defaultSpeed = speed;
             // get CastShadow child object and get its Animator component
             GameObject shadow = transform.Find("CastShadow").gameObject;
@@ -304,16 +306,17 @@ namespace SpriteGame
 
         private void CloseAllInterfaces()
         {
-            if(chattingWith != null)
-            {
-                chattingWith.CloseDialog();
-                chattingWith = null;
-            }
+            pauseMenu.HandlePause();
+            //if (chattingWith != null)
+            //{
+            //    chattingWith.CloseDialog();
+            //    chattingWith = null;
+            //}
 
-            if (interactable != null)
-            {
-                interactable = null;
-            }
+            //if (interactable != null)
+            //{
+            //    interactable = null;
+            //}
         }
 
         private void StartInteract()
