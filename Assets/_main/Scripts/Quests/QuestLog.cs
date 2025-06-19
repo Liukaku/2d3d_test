@@ -8,6 +8,8 @@ namespace SpriteGame
     {
         [SerializeField]
         public List<Quest> quests;
+        [SerializeField]
+        private PauseMenuController pauseMenuController;
 
         private void Awake()
         {
@@ -20,6 +22,12 @@ namespace SpriteGame
                 string jsonContent = System.IO.File.ReadAllText(questFile);
                 Quest quest = JsonUtility.FromJson<Quest>(jsonContent);
                 quests.Add(quest);
+            }
+
+            pauseMenuController = GameObject.Find("PauseMenu").GetComponent<PauseMenuController>();
+            if (pauseMenuController != null)
+            {
+                pauseMenuController.PopulateQuestList(quests);
             }
         }
 
