@@ -92,7 +92,7 @@ namespace SpriteGame
                 input_q = true;
             }
 
-            if (Input.GetMouseButtonDown(0) && !isInConversation())
+            if (Input.GetMouseButtonDown(0) && !isInConversationOrPaused())
             {
                 //StartCoroutine(TriggerAttackTimer());
                 input_click = true;
@@ -238,9 +238,10 @@ namespace SpriteGame
 
         }
 
-        private bool isInConversation()
+        // retruns true if the player is in conversation or paused
+        private bool isInConversationOrPaused()
         {
-            if((chattingWith != null && chattingWith.inConversation) || (interactable != null && interactable.IsInteracting))
+            if((chattingWith != null && chattingWith.inConversation) || (interactable != null && interactable.IsInteracting) || (pauseMenu != null && pauseMenu.IsPaused))
             {
                 return true;
             } else
@@ -365,7 +366,7 @@ namespace SpriteGame
                 return colliderArray.Where(c => !string.IsNullOrEmpty(c.tag) && c.CompareTag(tag)).ToArray();
             } else
             {
-                return colliderArray.Where(c => (!c.CompareTag(null) && !c.CompareTag("")) && (c.CompareTag(tag) || c.CompareTag(tagTwo))).ToArray();
+                return colliderArray.Where(c => (!string.IsNullOrEmpty(c.tag)) && (c.CompareTag(tag) || c.CompareTag(tagTwo))).ToArray();
             }
         }
 

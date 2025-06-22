@@ -10,19 +10,23 @@ namespace SpriteGame
     {
         private ItemInteractManager dialogManager;
         private Button PickUpButton, ExamineButton, DropItemButton, EndExamineButton;
+        [SerializeField]
         private GameObject ResponseButtons;
 
         public void Awake()
         {
-            ResponseButtons = GameObject.Find("ResponseButtons");
+            if(ResponseButtons == null)
+            {
+                ResponseButtons = GameObject.Find("ResponseButtons");
+            }
 
-            PickUpButton = GameObject.Find("PickUpButton").GetComponent<Button>();
+            PickUpButton = ResponseButtons.transform.Find("PickUpButton").GetComponent<Button>();
             PickUpButton.onClick.AddListener(() => OnButtonClick("PickUpButton"));
 
-            ExamineButton = GameObject.Find("ExamineButton").GetComponent<Button>();
+            ExamineButton = ResponseButtons.transform.Find("ExamineButton").GetComponent<Button>();
             ExamineButton.onClick.AddListener(() => OnButtonClick("ExamineButton"));
 
-            DropItemButton = GameObject.Find("DropItemButton").GetComponent<Button>();
+            DropItemButton = ResponseButtons.transform.Find("DropItemButton").GetComponent<Button>();
             DropItemButton.onClick.AddListener(() => OnButtonClick("DropItemButton"));
 
             EndExamineButton = GameObject.Find("EndExamineButton").GetComponent<Button>();
@@ -35,6 +39,10 @@ namespace SpriteGame
         public void Initiate(ItemInteractManager n)
         {
             this.dialogManager = n;
+            if (ResponseButtons == null)
+            {
+                Awake();
+            }
             ResponseButtons.SetActive(true);
             ButtonEnabler(true);
         }

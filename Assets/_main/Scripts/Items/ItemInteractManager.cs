@@ -28,10 +28,14 @@ public class ItemInteractManager : MonoBehaviour
     void Awake()
     {
         InteractableItem = transform.GetComponent<Interactable>();
-        DialogCanvas = GameObject.Find("ItemExamineCanvas");
-        DialogName = GameObject.Find("ItemExamineName").GetComponent<TextMeshProUGUI>();
-        DialogBody = GameObject.Find("ItemExamineBody").GetComponent<TextMeshProUGUI>();
-        ButtonManager = DialogCanvas.GetComponentInChildren<ExamineButtonManager>();
+        if(DialogCanvas == null)
+        {
+            DialogCanvas = GameObject.Find("ItemExamineCanvas");
+        }
+        
+        DialogName = DialogCanvas.transform.Find("ItemExamineName").GetComponent<TextMeshProUGUI>();
+        DialogBody = DialogCanvas.transform.Find("ItemExamineBody").GetComponent<TextMeshProUGUI>();
+        ButtonManager = DialogCanvas.transform.Find("ExamineButtonManager").GetComponent<ExamineButtonManager>();
         questLog = FindObjectOfType<QuestLog>();
 
         DialogCanvas.SetActive(false); // Hide the dialog canvas initially

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using static SpriteGame.Inventory;
 
 namespace SpriteGame
 {
@@ -20,12 +21,23 @@ namespace SpriteGame
         private GameObject questListUI;
 
         [SerializeField]
+        private GameObject inventoryUI;
+
+        [SerializeField]
+        private GameObject inventoryObject;
+
+        [SerializeField]
         private GameObject questObject;
 
         [SerializeField]
         private GameObject questStep;
 
+        private Inventory inventory;
+
         private Button ResumeButton, QuestLogButton, InventoryButton;
+
+        private bool questsLoaded = false;
+        private bool inventoryLoaded = false;
 
         private void Awake()
         {
@@ -38,9 +50,20 @@ namespace SpriteGame
             InventoryButton = GameObject.Find("InventoryButton").GetComponent<Button>();
             InventoryButton.onClick.AddListener(() => OnButtonClick("InventoryButton"));
 
+            inventory = GameObject.Find("Player").GetComponent<Inventory>();
+            PopulateInventory();
 
 
+        }
 
+        private void handleSetUp()
+        {
+            Debug.Log("quests" + questsLoaded);
+            Debug.Log("inventory" + inventoryLoaded);
+            if (questsLoaded && inventoryLoaded)
+            {
+                pauseMenuUI.SetActive(false);
+            }
         }
 
         private void OnButtonClick(string buttonLabel)
@@ -55,12 +78,41 @@ namespace SpriteGame
                     ToggleQuestList();
                     break;
                 case "InventoryButton":
-                    //ToggleInventory();
+                    ToggleInventory();
                     break;
                 default:
                     Debug.LogWarning("Unknown button clicked: " + buttonLabel);
                     break;
             }
+        }
+
+        private void LoadInventory()
+        {
+            // Inventory > Viewport > Content
+            GameObject contentTransform = inventoryUI.gameObject
+                .transform.Find("Viewport")
+                .Find("Content")
+                .gameObject;
+
+            foreach (InventoryItem item in inventory.Items)
+            {
+                Debug.Log($"Adding item: {item.item.Name} with quantity: {item.quantity}");
+                GameObject itemEntry = Instantiate(inventoryObject, contentTransform.transform);
+                itemEntry.transform.Find("ItemName").GetComponent<TextMeshProUGUI>().text = item.item.Name;
+                //itemEntry.transform.Find("ItemDescription").GetComponent<TextMeshProUGUI>().text = item.item.ExamineText;
+            }
+
+        }
+
+        public void PopulateInventory()
+        {
+            // Clear existing inventory entries
+
+            // Populate the inventory with new entries
+            LoadInventory();
+            inventoryUI.SetActive(false);
+            inventoryLoaded = true;
+            handleSetUp();
         }
 
         private GameObject CreateQuestListEntry(Quest quest)
@@ -96,14 +148,32 @@ namespace SpriteGame
             //{
             //    Destroy(child.gameObject);
             //}
-            // Populate the quest list with new entries
+            //Populate the quest list with new entries
             foreach (Quest quest in quests)
             {
                 GameObject questEntry = CreateQuestListEntry(quest);
                 questEntry.gameObject.transform.SetParent(contentTransform.transform, false);
             }
+            questListUI.SetActive(false);
+            questsLoaded = true;
+            handleSetUp();
+        }
 
-            pauseMenuUI.SetActive(false);
+        private void ToggleInventory()
+        {
+            if (inventoryUI.activeSelf)
+            {
+                inventoryUI.SetActive(false);
+            }
+            else
+            {
+                if(questListUI.activeSelf)
+                {
+                    questListUI.SetActive(false);
+                }
+                inventoryUI.SetActive(true);
+                LoadInventory();
+            }
         }
 
         private void ToggleQuestList()
@@ -111,12 +181,16 @@ namespace SpriteGame
             if (questListUI.activeSelf)
             {
                 questListUI.SetActive(false);
-                homePauseMenuUI.SetActive(true);
+                //homePauseMenuUI.SetActive(true);
             }
             else
             {
-                homePauseMenuUI.SetActive(false);
+                //homePauseMenuUI.SetActive(false);
                 questListUI.SetActive(true);
+                if (inventoryUI.activeSelf)
+                {
+                    questListUI.SetActive(false);
+                }
             }
         }
 
