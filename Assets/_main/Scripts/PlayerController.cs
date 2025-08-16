@@ -267,6 +267,10 @@ namespace SpriteGame
 
         private void HandleVerticalMovement()
         {
+            if (!canMove)
+            {
+                return;
+            }
             verticalSpeed = -gravity;
             m_ChController.Move(verticalSpeed * Vector3.up * Time.fixedDeltaTime);
         }
@@ -318,6 +322,23 @@ namespace SpriteGame
             //{
             //    interactable = null;
             //}
+        }
+
+        public void TeleportPlayer(Vector3 LocationInfo)
+        {
+                            // Teleport the player to the specified location
+            StartCoroutine(DoTeleport(LocationInfo));
+        }
+
+        private IEnumerator DoTeleport(Vector3 LocationInfo)
+        {
+            Debug.Log("Teleporting to: " + LocationInfo);
+            canMove = false;
+            //m_ChController.Move(Vector3.zero);
+            transform.position = LocationInfo;
+            yield return new WaitForSeconds(0.1f);
+            canMove = true;
+
         }
 
         private void StartInteract()
